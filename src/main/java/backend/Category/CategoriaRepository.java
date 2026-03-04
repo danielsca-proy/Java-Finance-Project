@@ -1,35 +1,51 @@
 package backend.Category;
 
+import backend.Exceptions.AppExceptions;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class CategoriaRepository {
-    List<Categoria> list = new ArrayList<>();
+    List<Categoria> listInMemory = new ArrayList<>();
 
-    //Agrega a la lista
+    //Guardar en la lista
     public void save(Categoria categoria){
-        list.add(categoria);
+        listInMemory.add(categoria);
     }
 
-    //Borra de la lista
+    //Eliminar de la lista
     public void delete(Categoria categoria){
-        list.remove(categoria);
+        listInMemory.remove(categoria);
     }
 
-    //Devuelve la lista
-    public List<Categoria> getList(){
-        return list;
-    }
-
-    //Modifica la lista
-    public void modify(Categoria newCategory){
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getId() == newCategory.getId()) {
-                list.set(i, newCategory);
+    //Modificar categoria en lista
+    public void update(int id, String newName, Categoria.Type newType){
+        for(Categoria categoria : listInMemory){
+            if(categoria.getId() == id){
+                categoria.setName(newName);
+                categoria.setType(newType);
                 return;
             }
         }
+
+        throw new AppExceptions("Categoria no encontrada.");
     }
 
+    //Buscar por Name
+    public Categoria findByName(String name){
+        for (Categoria categoria : listInMemory){
+            if (categoria.getName().equalsIgnoreCase(name)){
+                return categoria;
+            }
+        }
+        return  null;
+    }
+
+    public boolean existsByName(String name){
+        return findByName(name) != null;
+    }
+
+    //Buscar todos
+    public List<Categoria> getList(){
+        return List.copyOf(listInMemory);
+    }
 }

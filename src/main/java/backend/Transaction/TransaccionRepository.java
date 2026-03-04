@@ -5,32 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransaccionRepository {
-    List<Transaccion> list = new ArrayList<>();
+    List<Transaccion> listInMemory = new ArrayList<>();
 
-    //Agrega a la lista
-    public void save(Transaccion transaccion){
-        list.add(transaccion);
-    }
+    //Guardar en la lista
 
-    //Elimina de la lista
-    public void delete(Transaccion transaccion){
-        list.remove(transaccion);
-    }
+    //Eliminar de la lista
 
-    //Devuelve la lista
-    public List<Transaccion> getList(){
-        return list;
-    }
+    //Modificar - en lista
 
-    //Busca transacciones en un rango de fechas.
-    public List<Transaccion> findByDateRange(LocalDate firstDate, LocalDate lastDate){
-        List<Transaccion> listNew = new ArrayList<>();
-        for(Transaccion transaccion : list){
-            LocalDate fecha = transaccion.getDate();
-            if(!fecha.isAfter(lastDate) && !fecha.isBefore(firstDate)){
-                listNew.add(transaccion);
-            }
-        }
-        return listNew;
-    }
+    //Buscar por nombre
+
+    //Buscar todos
+
 }

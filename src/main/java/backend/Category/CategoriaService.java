@@ -1,70 +1,89 @@
 package backend.Category;
 
 import backend.Exceptions.AppExceptions;
-import backend.Transaction.Transaccion;
-import backend.Transaction.TransaccionService;
-
 import java.util.List;
 
 public class CategoriaService {
+    CategoriaRepository repository;
 
-    CategoriaRepository repository = new CategoriaRepository();
-    TransaccionService transaccion = new TransaccionService();
-
-    public void add(Categoria categoria){
-        //Verificar si no es nulo
-        if(categoria == null) {
-            throw new AppExceptions("Nueva categoria Invalida. ");
-        }
-
-        //Agregar
-        repository.save(categoria);
+    public CategoriaService(CategoriaRepository repository) {
+        this.repository = repository;
     }
 
-    public void eliminate(Categoria categoria){
-        //Verificar si no es nulo
-        if(categoria == null) throw new AppExceptions("La categoria a eliminar es nula. ");
+    //Normalizador
+    private String normalizeName(String name){
+        if(name == null) throw new AppExceptions("Nombre invalido");
+        name = name.trim();
+        if(name.isBlank()) throw new AppExceptions("Nombre invalido");
+        name = name.toLowerCase();
+        return name.substring(0,1).toUpperCase() + name.substring(1);
+    }
 
-        //Verificar si existe
-        for(Categoria categoria1 : repository.getList()){
-            if(!categoria1.equals(categoria)){
-                throw new AppExceptions("La categoria no existe");
+    //Guardar en la lista
+    public void save(String name, Categoria.Type type){
+        if(name == null || name.isBlank()) throw new AppExceptions("Creacion invalida");
+
+        //Normalizamos
+        name = normalizeName(name);
+
+        //Verificar si ya existe
+        for(Categoria categoria : repository.getList()){
+            if(categoria.getName().equalsIgnoreCase(name)){
+                throw new AppExceptions("Categoria ya existente");
             }
         }
 
-        //Verificar si existe transaccion asociada
-        for (Transaccion transaccion1 : transaccion.viewList()){
-            if(transaccion1.getCategory() != null && transaccion1.getCategory().equals(categoria)){
-                throw new AppExceptions("Primero debe eliminar las transacciones asociadas. ");
-            }
-        }
-
-        //Eliminar
-        repository.delete(categoria);
+        //Si no eiste, Agregamos
+        repository.save(new Categoria(name, type));
     }
 
-    public List<Categoria> viewList(){
-        //Verificar si no es nulo
-        if(repository.getList() == null){
-            throw new AppExceptions("No permitido, lista vacia.");
+    //Eliminar de la lista
+    public void delete(String name){
+        if(name == null || name.isBlank()) throw new AppExceptions("Eliminacion invalida");
+        //Verificar si existe la categoria
+        for(Categoria categoria : repository.getList()){
+            if(categoria.getName().equalsIgnoreCase(name)){
+                //Existe, la elimina
+                repository.delete(categoria);
+                return;
+            }
+        }
+        throw new AppExceptions("Categoria no existente");
+    }
+
+
+
+    //Modificar - en lista
+    public void update(String currentName, String newName, Categoria.Type newType){
+        String current = normalizeName(currentName);
+        String next = normalizeName(newName);
+
+        Categoria actual = repository.findByName(current);
+        if(actual == null) throw new AppExceptions("Categoria no existente");
+
+        if(!current.equalsIgnoreCase(next) && repository.existsByName(next)){
+            throw new AppExceptions("Categoria ya existente");
         }
 
-        //Devolver lista
+        repository.update(actual.getId(), next, newType);
+    }
+
+    //Buscar por nombre
+    public Categoria findByName(String name){
+        if(name == null || name.isBlank()) throw new AppExceptions("Busqueda invalida");
+        //Normalizamos
+        name = normalizeName(name);
+        //Buscamos la categoria
+        for(Categoria categoria : repository.getList()){
+            if(categoria.getName().equalsIgnoreCase(name)){
+                return categoria;
+            }
+        }
+        throw new AppExceptions("Categoria no existente");
+    }
+
+    //Buscar todos
+    public List<Categoria> findAll(){
         return repository.getList();
-    }
-
-    public void modifyCategory(Categoria newCategory){
-        //Verificar si no es nulo
-        if (newCategory == null) throw new AppExceptions("La categoria nueva no puede ser nula");
-
-        //Verificar si existe
-        for(Categoria categoria1 : repository.getList()){
-            if(categoria1.equals(newCategory)){
-                throw new AppExceptions("La categoria ya existe");
-            }
-        }
-
-        //Modificar categoria
-        repository.modify(newCategory);
     }
 }
