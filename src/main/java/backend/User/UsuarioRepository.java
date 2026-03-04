@@ -37,4 +37,10 @@ public class UsuarioRepository {
             }
         }
     }
+
+    //Devuelve la lista
+    public List<Usuario> getList(){
+        return list;
+    }
+
 }

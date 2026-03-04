@@ -1,6 +1,6 @@
 package backend.User;
 
-import backend.Exceptions.TransaccionExceptions;
+import backend.Exceptions.AppExceptions;
 
 import java.math.BigDecimal;
 
@@ -58,7 +58,7 @@ public class Usuario {
 
     public void withdraw(BigDecimal money){
         if (getBalance().compareTo(money) < 0){
-            throw new TransaccionExceptions("No hay saldo suficiente para realizar esta operacion. ");
+            throw new AppExceptions("No hay saldo suficiente para realizar esta operacion. ");
         }else{
             setBalance(getBalance().subtract(money));
         }
@@ -66,7 +66,7 @@ public class Usuario {
 
     public void deposit(BigDecimal money){
         if (money == null || money.compareTo(BigDecimal.ZERO) <= 0){
-            throw new TransaccionExceptions("El monto es invalido. ");
+            throw new AppExceptions("El monto es invalido. ");
         }
         setBalance(getBalance().add(money));
     }

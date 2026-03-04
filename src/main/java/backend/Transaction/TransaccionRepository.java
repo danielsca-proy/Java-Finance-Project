@@ -1,12 +1,8 @@
 package backend.Transaction;
 
-import backend.Category.Categoria;
-import backend.Exceptions.TransaccionExceptions;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class TransaccionRepository {
     List<Transaccion> list = new ArrayList<>();
@@ -22,7 +18,7 @@ public class TransaccionRepository {
     }
 
     //Devuelve la lista
-    public List<Transaccion> getList(int id){
+    public List<Transaccion> getList(){
         return list;
     }
 
