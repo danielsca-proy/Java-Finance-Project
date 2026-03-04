@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriaRepository {
-    List<Categoria> listInMemory = new ArrayList<>();
+    private List<Categoria> listInMemory = new ArrayList<>();
 
     //Guardar en la lista
     public void save(Categoria categoria){
@@ -40,6 +40,7 @@ public class CategoriaRepository {
         return  null;
     }
 
+    //Existencia
     public boolean existsByName(String name){
         return findByName(name) != null;
     }

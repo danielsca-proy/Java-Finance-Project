@@ -11,8 +11,9 @@ public class Transaccion {
     private Categoria category;
     private Usuario user;
     private LocalDate date;
+    private String resume;
 
-    public Transaccion(Categoria category, Usuario user, LocalDate date) {
+    public Transaccion(Categoria category, Usuario user, String resume, LocalDate date) {
         this.id = counterTransaction++;
         this.category = category;
         this.user = user;
@@ -45,5 +46,13 @@ public class Transaccion {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
     }
 }
