@@ -13,4 +13,14 @@ public class TransaccionController {
     public TransaccionController(TransaccionService service) {
         this.service = service;
     }
+
+    //Guardamos
+
+
+    //Eliminamos
+
+    //Devolvemos las transacciones en un rango de fecha
+
+    //Devolvemos todas las transacciones del usuario
+
 }

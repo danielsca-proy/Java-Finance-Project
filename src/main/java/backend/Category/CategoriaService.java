@@ -33,22 +33,15 @@ public class CategoriaService {
             }
         }
 
-        //Si no eiste, Agregamos
+        //Si no existe, Agregamos
         repository.save(new Categoria(name, type));
     }
 
     //Eliminar de la lista
     public void delete(String name){
         if(name == null || name.isBlank()) throw new AppExceptions("Eliminacion invalida");
-        //Verificar si existe la categoria
-        for(Categoria categoria : repository.getList()){
-            if(categoria.getName().equalsIgnoreCase(name)){
-                //Existe, la elimina
-                repository.delete(categoria);
-                return;
-            }
-        }
-        throw new AppExceptions("Categoria no existente");
+        //Eliminamos la categoria
+        repository.delete(name);
     }
 
 

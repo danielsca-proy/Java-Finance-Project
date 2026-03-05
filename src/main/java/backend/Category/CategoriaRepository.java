@@ -13,8 +13,15 @@ public class CategoriaRepository {
     }
 
     //Eliminar de la lista
-    public void delete(Categoria categoria){
-        listInMemory.remove(categoria);
+    public void delete(String name){
+        for(Categoria categoria : listInMemory){
+            if(categoria.getName().equalsIgnoreCase(name)){
+                //Existe, la elimina
+                 listInMemory.remove(categoria);
+                return;
+            }
+        }
+        throw new AppExceptions("Categoria no encontrada.");
     }
 
     //Modificar categoria en lista
