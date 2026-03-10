@@ -8,21 +8,20 @@ import java.util.List;
 
 public class TransaccionRepository {
     private List<Transaccion> listInMemory = new ArrayList<>();
+    private int counter = 1;
 
     //Guardar en la lista
     public void save(Transaccion transaccion){
-        listInMemory.add(transaccion);
+        listInMemory.add(new Transaccion(counter++, transaccion.getCategory(), transaccion.getUser(), transaccion.getResume(), transaccion.getDate()));
     }
 
     //Eliminar de la lista
     public void delete(int id){
-        for (Transaccion transaccion:listInMemory){
-            if (transaccion.getId() == id){
-                listInMemory.remove(transaccion);
-                return;
-            }
+        boolean removed = listInMemory.removeIf(c -> c.getId() == id);
+
+        if(!removed){
+            throw new AppExceptions("Categoria no encontrada.");
         }
-        throw new AppExceptions("Transaccion no existente.");
     }
 
     //Buscar por rango de fechas

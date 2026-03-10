@@ -12,8 +12,16 @@ public class Usuario {
     private String user;
     private BigDecimal balance;
 
-    public Usuario(String name, String password, String user, BigDecimal balance) {
-        this.id = counterUser++;
+    public Usuario(String name, String password, String user) {
+        this.id = 0;
+        this.name = name;
+        this.password = password;
+        this.user = user;
+        this.balance = BigDecimal.ZERO;
+    }
+
+    public Usuario(int id, String name, String password, String user) {
+        this.id = id;
         this.name = name;
         this.password = password;
         this.user = user;

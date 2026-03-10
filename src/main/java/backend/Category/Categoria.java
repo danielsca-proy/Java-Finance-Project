@@ -2,7 +2,6 @@ package backend.Category;
 
 public class Categoria {
     private final int id;
-    private static int counterCategory = 1;
     private String name;
     private Type type;
 
@@ -11,8 +10,14 @@ public class Categoria {
         EXPENSE
     }
 
+    public Categoria(int id, String name, Type type){
+        this.id = id;
+        this.name = name;
+        this.type = type;
+    }
+
     public Categoria(String name, Type type){
-        this.id = counterCategory++;
+        this.id = 0;
         this.name = name;
         this.type = type;
     }

@@ -6,22 +6,20 @@ import java.util.List;
 
 public class CategoriaRepository {
     private List<Categoria> listInMemory = new ArrayList<>();
+    private int counter = 1;
 
     //Guardar en la lista
     public void save(Categoria categoria){
-        listInMemory.add(categoria);
+        listInMemory.add(new Categoria(counter++, categoria.getName(), categoria.getType()));
     }
 
     //Eliminar de la lista
     public void delete(String name){
-        for(Categoria categoria : listInMemory){
-            if(categoria.getName().equalsIgnoreCase(name)){
-                //Existe, la elimina
-                 listInMemory.remove(categoria);
-                return;
-            }
+        boolean removed = listInMemory.removeIf(c -> c.getName().equalsIgnoreCase(name));
+
+        if(!removed){
+            throw new AppExceptions("Categoria no encontrada.");
         }
-        throw new AppExceptions("Categoria no encontrada.");
     }
 
     //Modificar categoria en lista

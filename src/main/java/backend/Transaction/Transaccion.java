@@ -14,10 +14,19 @@ public class Transaccion {
     private String resume;
 
     public Transaccion(Categoria category, Usuario user, String resume, LocalDate date) {
-        this.id = counterTransaction++;
+        this.id = 0;
         this.category = category;
         this.user = user;
         this.date = date;
+        this.resume = resume;
+    }
+
+    public Transaccion(int id, Categoria category, Usuario user, String resume, LocalDate date) {
+        this.id = id;
+        this.category = category;
+        this.user = user;
+        this.date = date;
+        this.resume = resume;
     }
 
     public int getId() {
